@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Lookup</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Student Lookup</h1>
+  </header>
+
+  <div class="container">
+    <div class="controls">
+      <input type="text" id="rollInput" placeholder="Enter Roll Number">
+      <button onclick="searchStudent()">Search</button>
+    </div>
+    <div class="result" id="result"></div>
+
+    <div class="panels" id="studentPanel"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 Student Lookup App</p>
+  </footer>
+
+  <script>
+    const students = {
+      "101": {name:"Alice", photo:"https://via.placeholder.com/160", age:20, course:"CS"},
+      "102": {name:"Bob", photo:"https://via.placeholder.com/160", age:21, course:"IT"},
+      "103": {name:"Charlie", photo:"https://via.placeholder.com/160", age:19, course:"Maths"}
+    };
+
+    function searchStudent(){
+      const roll = document.getElementById("rollInput").value.trim();
+      const resultDiv = document.getElementById("result");
+      const panel = document.getElementById("studentPanel");
+      panel.innerHTML="";
+
+      if(students[roll]){
+        resultDiv.textContent = "Found: " + students[roll].name;
+        resultDiv.style.color = "green";
+
+        const s = students[roll];
+        panel.innerHTML = `
+          <div class="student-frame">
+            <div class="photo"><img src="${s.photo}" alt="${s.name}"></div>
+            <table class="features">
+              <tr><th>Name</th><td>${s.name}</td></tr>
+              <tr><th>Roll</th><td>${roll}</td></tr>
+              <tr><th>Age</th><td>${s.age}</td></tr>
+              <tr><th>Course</th><td>${s.course}</td></tr>
+            </table>
+          </div>`;
+      } else {
+        resultDiv.textContent = "No student found with Roll No: " + roll;
+        resultDiv.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
