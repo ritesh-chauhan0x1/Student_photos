@@ -16,7 +16,7 @@
       <input type="text" id="rollInput" placeholder="Enter Roll Number">
       <button onclick="searchStudent()">Search</button>
     </div>
-    <div class="result" id="result"></div>
+    <div class="result" id="result" aria-live="polite"></div>
 
     <div class="panels" id="studentPanel"></div>
   </div>
@@ -40,11 +40,11 @@
 
       if(students[roll]){
         resultDiv.textContent = "Found: " + students[roll].name;
-        resultDiv.style.color = "green";
+        resultDiv.className = 'result found';
 
         const s = students[roll];
         panel.innerHTML = `
-          <div class="student-frame">
+          <div class="student-frame enter">
             <div class="photo"><img src="${s.photo}" alt="${s.name}"></div>
             <table class="features">
               <tr><th>Name</th><td>${s.name}</td></tr>
@@ -53,9 +53,14 @@
               <tr><th>Course</th><td>${s.course}</td></tr>
             </table>
           </div>`;
+        // remove enter class after animation so hover transform works smoothly
+        setTimeout(()=>{
+          const el = panel.querySelector('.student-frame.enter');
+          if(el) el.classList.remove('enter');
+        }, 500);
       } else {
         resultDiv.textContent = "No student found with Roll No: " + roll;
-        resultDiv.style.color = "red";
+        resultDiv.className = 'result notfound';
       }
     }
   </script>

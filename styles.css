@@ -1,51 +1,82 @@
 :root{
-  --bg:#f4f6f8; --card:#ffffff; --muted:#6b7280; --accent:#2563eb; --danger:#ef4444;
+  --bg:#0f1724; /* deep navy background */
+  --panel-bg: linear-gradient(180deg,#0b1220 0%, #0f1724 100%);
+  --card:#0b1220; --card-surface:#071028;
+  --muted:#9ca3af; --accent:#60a5fa; --accent-2:#7c3aed; --danger:#fb7185;
+  --glass: rgba(255,255,255,0.03);
 }
 *{box-sizing:border-box; margin:0; padding:0}
 body{
   font-family:Segoe UI, system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial;
-  background:var(--bg); color:#111; line-height:1.5;
+  background:radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,0.06), transparent), var(--bg);
+  color:#e6eef8; line-height:1.5; min-height:100vh;
 }
 header{
-  padding:24px 20px; text-align:center;
-  background:linear-gradient(90deg,#fff 0%,#f8fafc 100%);
-  box-shadow:0 1px 0 rgba(0,0,0,.04);
+  padding:26px 20px; text-align:center; background:transparent;
 }
-header h1{margin:0; font-size:22px}
+header h1{margin:0; font-size:24px; letter-spacing:0.2px; color:var(--accent)}
 
-.container{max-width:900px; margin:28px auto; padding:0 16px}
+.container{max-width:1000px; margin:28px auto; padding:0 16px}
 .controls{display:flex; gap:12px; align-items:center; margin-bottom:20px; flex-wrap:wrap}
 .controls label{display:flex; flex-direction:column; font-size:13px; color:var(--muted)}
 input, select{
-  padding:10px; border:1px solid #d1d5db;
-  border-radius:6px; background:white; min-width:180px;
+  padding:10px; border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  min-width:180px; color:var(--muted);
 }
 button{
-  padding:10px 16px; background:var(--accent);
-  color:white; border:none; border-radius:8px; cursor:pointer;
-  transition:all 0.2s ease;
+  padding:10px 16px; background:linear-gradient(90deg,var(--accent), var(--accent-2));
+  color:white; border:none; border-radius:12px; cursor:pointer;
+  box-shadow:0 6px 18px rgba(96,165,250,0.12); transition:transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s;
 }
-button:hover{opacity:.9; transform:translateY(-1px)}
-.result{margin-top:12px; font-size:15px; color:var(--muted)}
+button:hover{transform:translateY(-4px) scale(1.01); box-shadow:0 12px 28px rgba(96,165,250,0.16)}
+.result{margin-top:12px; font-size:15px; color:var(--muted); min-height:20px}
+.result.found{color: #86efac; animation: pulse 900ms ease-out 0s 1}
+.result.notfound{color: var(--danger); animation: pulse 900ms ease-out 0s 1}
 
 .panels{display:flex; flex-wrap:wrap; gap:18px}
 .student-frame{
-  flex:1 1 300px; background:var(--card);
-  border-radius:10px; padding:16px;
-  box-shadow:0 6px 18px rgba(2,6,23,.06);
+  flex:1 1 300px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px; padding:18px;
+  box-shadow:0 10px 30px rgba(2,6,23,0.5);
   display:flex; flex-direction:column;
-  align-items:center; gap:14px;
+  align-items:center; gap:14px; border:1px solid rgba(255,255,255,0.03);
+  transform-origin:center center; transition:transform .18s ease, box-shadow .18s ease; position:relative; overflow:hidden;
 }
+.student-frame:hover{transform:translateY(-6px) scale(1.01); box-shadow:0 20px 40px rgba(2,6,23,0.6)}
+.student-frame.enter{animation: popIn .42s cubic-bezier(.2,.9,.3,1)}
 .photo img{
   width:160px; height:160px; object-fit:cover;
-  border-radius:8px; border:2px solid #eef2ff;
+  border-radius:10px; border:3px solid rgba(255,255,255,0.04); box-shadow:0 8px 30px rgba(124,58,237,0.06);
 }
 .features{width:100%; border-collapse:collapse; margin-top:10px}
 .features th{text-align:left; font-weight:600; padding:8px 6px; width:120px; color:var(--muted)}
-.features td{padding:8px 6px; color:#111}
+.features td{padding:8px 6px; color:var(--muted)}
 .features tr.diff{
-  background:linear-gradient(90deg, rgba(239,68,68,0.06), rgba(37,99,235,0.04));
+  background:linear-gradient(90deg, rgba(251,113,133,0.04), rgba(124,58,237,0.03));
   border-left:4px solid var(--danger)
+}
+
+/* Animations */
+@keyframes popIn{
+  0%{transform:translateY(18px) scale(.98); opacity:0}
+  60%{transform:translateY(-6px) scale(1.02); opacity:1}
+  100%{transform:translateY(0) scale(1)}
+}
+@keyframes floaty{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
+}
+@keyframes pulse{
+  0%{transform:scale(.98)}
+  50%{transform:scale(1.02)}
+  100%{transform:scale(1)}
+}
+
+/* subtle shimmer on header */
+.container::before{
+  content:''; position:absolute; left:0; right:0; top:0; height:160px; pointer-events:none; background:linear-gradient(90deg, rgba(96,165,250,0.02), rgba(124,58,237,0.02)); filter:blur(20px); transform:translateY(-20px); border-radius:14px; z-index:-1;
 }
 
 footer{
